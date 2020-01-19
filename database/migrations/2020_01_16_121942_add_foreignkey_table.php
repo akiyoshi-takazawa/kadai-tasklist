@@ -30,11 +30,6 @@ class AddForeignkeyTable extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            
-            //タスクを投稿したユーザIDの追加
-            $table->dropColumn('user_id')->unsigned()->index();
-            
-        });
+        Schema::dropIfExists('tasks');
     }
 }

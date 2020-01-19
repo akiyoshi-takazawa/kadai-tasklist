@@ -56,10 +56,17 @@ class TasksController extends Controller
     // getでtasks/idにアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        $task = Task::find($id);
+        $task = \App\Task::find($id);
+        
+        if (\Auth::id() === $task->user_id) {
+        
         return view('tasks.show', [
             'task' => $task,
         ]);
+        }
+        
+        return redirect('/');
+    
     }
     // getでtasks/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
@@ -81,14 +88,15 @@ class TasksController extends Controller
         $task->content = $request->content;
         $task->status = $request->status;
         $task->save();
+
         return redirect('/');
     }
     // deleteでmessages/idにアクセスされた場合の「削除処理」
     public function destroy($id)
     {
-        $task = Task::find($id);
+        $task = \App\Task::find($id);
         
-        if(\Auth::id() === $task->user_id) {
+        if (\Auth::id() === $task->user_id) {
         $task->delete();
         
     }
